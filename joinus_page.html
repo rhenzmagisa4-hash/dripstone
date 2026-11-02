@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dripstone Children's Centre - Join Us!</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333333;
+            background-color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+            zoom: 90%;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- Header Styles --- */
+        .header-main {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            width: 100%;
+        }
+
+        .header-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 2rem; 
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-img {
+            height: 3.5rem; 
+            object-fit: contain;
+            transition: height 0.3s;
+        }
+
+        /* Desktop Nav */
+        .desktop-nav {
+            display: none; 
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center; 
+            gap: 2rem;
+            height: 100%;
+        }
+
+        .dropdown-wrapper {
+            position: relative;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 400;
+            color: #E57B3A;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            display: inline-block;
+            line-height: 1;
+            position: relative;
+        }
+
+        /* Nav Hover Underline Animation */
+        .nav-button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #E57B3A;
+            transition: width 0.3s ease, transform 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-button:hover::after {
+            width: 100%;
+        }
+
+        .nav-button:hover {
+            color: #c7652a;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 15px;
+            width: 280px;
+            background-color: #E57B3A;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            
+            /* Smooth Dropdown Animation */
+            max-height: 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            pointer-events: none;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .dropdown-menu.active {
+            max-height: 400px;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .dropdown-menu a {
+            color: #ffffff;
+            font-size: 14px;
+            padding: 5px 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            text-transform: uppercase;
+            transition: background-color 0.2s ease, padding-left 0.2s ease;
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #c7652a;
+            padding-left: 20px; 
+        }
+
+        /* Mobile Hamburger & Nav */
+        .hamburger-btn {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 32px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 60;
+        }
+
+        .hamburger-btn span {
+            width: 100%;
+            height: 3px;
+            background-color: #E57B3A;
+            border-radius: 4px;
+            transition: all 0.4s ease-in-out;
+        }
+
+        .hamburger-btn.open span:nth-child(1) { transform: translateY(10.5px); }
+        .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+        .hamburger-btn.open span:nth-child(3) { transform: translateY(-10.5px); }
+
+        .mobile-nav-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background-color: #ffffff;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 45;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out, border-color 0.3s ease;
+            pointer-events: none;
+            border-top: 0 solid #E57B3A;
+            border-bottom: 0 solid #E57B3A;
+        }
+
+        .mobile-nav-container.active {
+            max-height: 800px;
+            opacity: 1;
+            pointer-events: auto;
+            border-top: 2px solid #E57B3A;
+            border-bottom: 2px solid #E57B3A;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #E57B3A;
+        }
+
+        .mobile-nav-btn {
+            background: #ffffff;
+            border: none;
+            padding: 1.25rem 1rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #E57B3A;
+            text-transform: uppercase;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        .mobile-nav-btn:hover, .mobile-nav-link:hover {
+            background-color: #fdf5f0;
+        }
+
+        .mobile-dropdown {
+            display: flex;
+            flex-direction: column;
+            background-color: #E57B3A;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        }
+
+        .mobile-dropdown.active {
+            max-height: 350px;
+            opacity: 1;
+        }
+
+        .mobile-dropdown a {
+            color: #ffffff;
+            font-size: 13px;
+            padding: 1rem;
+            text-transform: uppercase;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            font-weight: 300;
+            transition: background-color 0.3s;
+        }
+        
+        .mobile-dropdown a:last-child {
+            border-bottom: none;
+        }
+        
+        .mobile-dropdown a:hover {
+            background-color: #c7652a;
+        }
+
+        .mobile-nav-link {
+            padding: 1.25rem 1rem;
+            font-size: 14px;
+            color: #E57B3A;
+            background: #ffffff;
+            text-align: center;
+            text-transform: uppercase;
+            border-bottom: 1px solid #E57B3A;
+            font-weight: 500;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        
+        .mobile-nav-link:last-child {
+            border-bottom: none;
+        }
+
+        /* --- Page Specific Styles --- */
+        .join-hero-section {
+            padding: 3rem 1rem 2rem 1.0rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .join-hero-section h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #E57B3A;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .join-hero-section p {
+            font-size: 0.9rem;
+            color: #555555;
+            font-weight: 400;
+        }
+
+        .enrollment-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .enrollment-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .enrollment-content h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #E57B3A;
+            margin-bottom: 1rem;
+        }
+
+        .enrollment-content p {
+            font-size: 0.85rem;
+            color: #555555;
+            font-weight: 300;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .volunteer-section {
+            background-color: #E57B3A;
+            color: #ffffff;
+            padding: 3rem 1rem;
+            width: calc(100% - 2rem);
+            margin: 0 auto;
+            border-radius: 4px;
+        }
+
+        .volunteer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .volunteer-text h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .volunteer-text p {
+            font-size: 0.85rem;
+            font-weight: 300;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .volunteer-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            object-fit: cover;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .team-join-section {
+            background-color: #33bdf2;
+            color: #ffffff;
+            padding: 3rem 1rem;
+            width: calc(100% - 2rem);
+            margin: 1.5rem auto 3rem auto;
+            border-radius: 4px;
+        }
+
+        .team-join-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .team-join-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            object-fit: cover;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .team-join-text h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .team-join-text p {
+            font-size: 0.85rem;
+            font-weight: 300;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .cyan-banner {
+            width: calc(100% - 2rem);
+            height: 10px;
+            background-color:#e57b3a;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        /* --- Footer Styles --- */
+        .footer-main {
+            padding-top: 2.5rem; 
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem 2.5rem 1rem; 
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem; 
+            align-items: start;
+        }
+
+        .footer-logo img {
+            height: 3.5rem; 
+            object-fit: contain;
+            display: block;
+        }
+
+        .footer-desc p {
+            font-size: 0.8rem; 
+            color: #777777;
+        }
+
+        .footer-desc strong {
+            color: #E57B3A;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .footer-socials svg {
+            width: 24px; 
+            height: 24px;
+            color: #333333;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .footer-socials svg:hover {
+            color: #E57B3A;
+            transform: translateY(-2px);
+        }
+
+        .footer-contact h4 {
+            font-size: 1rem; 
+            margin-bottom: 1rem;
+            color: #000;
+        }
+
+        .footer-contact ul {
+            list-style: none;
+            font-size: 0.8rem; 
+            color: #777777;
+        }
+
+        .footer-contact li {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            word-break: break-word;
+            transition: color 0.2s;
+        }
+        
+        .footer-contact li:hover {
+            color: #E57B3A;
+        }
+
+        .footer-contact svg {
+            width: 14px; 
+            height: 14px;
+            flex-shrink: 0;
+            color: #333;
+        }
+
+        .footer-bottom {
+            background-color: #E57B3A;
+            color: #ffffff;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- Media Queries --- */
+
+        /* Tablet Breakpoint */
+        @media (min-width: 768px) {
+            .join-hero-section { padding: 4rem 1.5rem 3rem 1.5rem; }
+            .join-hero-section h1 { font-size: 2.75rem; }
+            .join-hero-section p { font-size: 1rem; }
+
+            .enrollment-section {
+                grid-template-columns: 1.2fr 1fr;
+                gap: 3rem;
+                margin-bottom: 4rem;
+            }
+            .enrollment-content h3 { font-size: 1.75rem; }
+            .enrollment-content p { font-size: 0.95rem; }
+
+            .volunteer-section { padding: 5rem 1.5rem; width: 100%; border-radius: 0; }
+            .volunteer-container { grid-template-columns: 1fr 1.2fr; gap: 3rem; }
+            .volunteer-text h3 { font-size: 1.75rem; }
+            .volunteer-text p { font-size: 0.95rem; }
+
+            .team-join-section { padding: 5rem 1.5rem; width: 100%; border-radius: 0; margin: 0px; }
+            .team-join-container { grid-template-columns: 1.2fr 1fr; gap: 3rem; }
+            .team-join-text h3 { font-size: 1.75rem; }
+            .team-join-text p { font-size: 0.95rem; }
+
+            .cyan-banner { width: 100%; border-radius: 0; }
+
+            .footer-main { padding-top: 4rem; }
+            .footer-container {
+                grid-template-columns: 1fr 1.5fr 1fr; 
+                gap: 2rem;
+                padding: 0 1.5rem 4rem 1.5rem;
+            }
+            .footer-logo img { height: 5rem; }
+            .footer-desc p, .footer-contact ul { font-size: 0.875rem; }
+            .footer-contact h4 { font-size: 1.125rem; }
+            .footer-socials svg { width: 30px; height: 30px; }
+            .footer-contact svg { width: 16px; height: 16px; }
+        }
+
+        /* Desktop Breakpoint */
+        @media (min-width: 1024px) {
+            .header-container { padding: 1rem 1.5rem; }
+            .logo-img { height: 5rem; }
+            .hamburger-btn { display: none; }
+            .mobile-nav-container { display: none !important; }
+            
+            .desktop-nav { 
+                display: flex; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-main">
+        <div class="header-container">
+            <a href="index.html" class="logo-link">
+                <img src="photos/logo.png" alt="Dripstone Children's Centre Logo" class="logo-img">
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <nav class="nav-menu desktop-nav">
+                <div class="dropdown-wrapper">
+                    <button class="nav-button">OUR CENTER</button>
+                    <div class="dropdown-menu">
+                        <a href="meals_page.html">Meals</a>
+                        <a href="communication_page.html">A PLACE FOR PEOPLE, BIG & SMALL</a>
+                        <a href="teams_page.html">MEET OUR TEAM</a>
+                    </div>
+                </div>
+                <div class="dropdown-wrapper">
+                    <button class="nav-button">DRIPSTONE WAY ETHOS AND VALUES</button>
+                    <div class="dropdown-menu">
+                        <a href="ourvalues_page.html">OUR VALUES</a>
+                        <a href="walking_lightly_page.html">WALKING LIGHTLY ON THE LAND</a>
+                        <a href="committee_page.html">COMMITTEE</a>
+                    </div>
+                </div>
+                <div class="dropdown-wrapper">
+                    <a href="joinus_page.html" class="nav-button">JOIN US</a>
+                </div>
+                <div class="dropdown-wrapper">
+                    <a href="getintouch_page.html" class="nav-button">GET IN TOUCH</a>
+                </div>
+            </nav>
+
+            <!-- Mobile Hamburger Button -->
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-nav-container" id="mobileNav">
+            <div class="mobile-nav-item">
+                <button class="mobile-nav-btn">OUR CENTER</button>
+                <div class="mobile-dropdown">
+                    <a href="meals_page.html">MEALS</a>
+                    <a href="communication_page.html">A PLACE FOR PEOPLE BIG & SMALL</a>
+                    <a href="teams_page.html">MEET OUR TEAM</a>
+                </div>
+            </div>
+            <div class="mobile-nav-item">
+                <button class="mobile-nav-btn">DRIPSTONE WAY ETHOS AND VALUES</button>
+                <div class="mobile-dropdown">
+                    <a href="ourvalues_page.html">OUR VALUES</a>
+                    <a href="walking_lightly_page.html">WALKING LIGHTLY ON THE LAND</a>
+                    <a href="committee_page.html">COMMITTEE & CHILDREN'S COMMITTEE</a>
+                </div>
+            </div>
+            <a href="joinus_page.html" class="mobile-nav-link">JOIN US</a>
+            <a href="getintouch_page.html" class="mobile-nav-link">GET IN TOUCH</a>
+        </div>
+    </header>
+
+    <section class="join-hero-section">
+        <h1>JOIN US!</h1>
+        <p>Let's Do Great Things Together!</p>
+    </section>
+
+    <section class="enrollment-section">
+        <div class="enrollment-image">
+            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800" alt="Child with painted hands">
+        </div>
+        <div class="enrollment-content">
+            <h3>Enrollment</h3>
+            <p>Here at Dripstone we pride ourselves on the relationships we hold within our community. At this stage we do have a waiting list for all age groups and we invite you to join our wait list.</p>
+            <p>Once you have registered for our waiting list; we invite you to set aside some time to attend one of our monthly waiting list tours so that you can view our facilities, meet our team and speak to us about your child's journey.</p>
+            <p>Our waiting list tours are held at 9:30am on the second Thursday of every month! We hope to see you here.</p>
+        </div>
+    </section>
+
+    <section class="volunteer-section">
+        <div class="volunteer-container">
+            <div class="volunteer-text">
+                <h3>Be a Volunteer</h3>
+                <p>Throughout the year we invite members of our immediate Dripstone family and broader community to join us as roving experts into Dripstone enriches our curriculum.</p>
+                <p>Dripstone also hosts a wide variety of educators who are completing work placement as part of their vocational or tertiary qualifications.</p>
+                <p>We also hold bi-annual working bees and encourage you to join us in the garden for a relaxed morning.</p>
+                <p>To register your interest in volunteering at Dripstone, please email director@dripstone.com.au</p>
+            </div>
+            <div class="volunteer-image">
+                <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&q=80&w=800" alt="Hands holding leaves">
+            </div>
+        </div>
+    </section>
+
+    <section class="team-join-section">
+        <div class="team-join-container">
+            <div class="team-join-image">
+                <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=800" alt="Team group photo">
+            </div>
+            <div class="team-join-text">
+                <h3>Join our Dripstone Team</h3>
+                <p>We champion the growth of professionals through regular, innovative professional development because we believe that those who know better do better.</p>
+                <p>To express your interest in joining our dedicated team, please email us at director@dripstone.com.au with as much detail about WHY you want to join the Dripstone team.</p>
+                
+                <h3 style="margin-top: 2rem;">Team Member Testimonials</h3>
+                <p>"At Dripstone we nurture through nature with our children and encourage creativity, resilience and exploration through play. Like I solo many times to our children, I wish I had an opportunity to play and learn at a place just like this when I was a child." - Alice</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="cyan-banner"></div>
+
+    <footer class="footer-main">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="photos/logo.png" alt="Dripstone Children's Centre Logo">
+            </div>
+            <div class="footer-desc">
+                <p><strong>Dripstone Children's Centre</strong> provides a nurturing, nature-inspired environment where children learn, grow, and develop lifelong healthy habits.</p>
+                <div class="footer-socials">
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path></svg>
+                    </a>
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"></path></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li>
+                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.5-6.923c-.67.204-1.335.82-1.887 1.855A8 8 0 0 0 5.145 4H7.5zM4.09 4a9.3 9.3 0 0 1 .64-1.539 7 7 0 0 1 .597-.933A7.03 7.03 0 0 0 2.255 4zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a7 7 0 0 0-.656 2.5zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5zM8.5 5v2.5h2.99a12.5 12.5 0 0 0-.337-2.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12zm.946 1.352c-.213-.33-.413-.711-.597-1.127A7 7 0 0 0 4.09 12h1.408zm3.805 1.127a9.3 9.3 0 0 1-.597 1.127 7 7 0 0 0 2.457-1.127h-1.408zM8.5 14.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1.423c.18-.386.34-.8.47-1.25H14.1a7 7 0 0 0-1.92-1.25zM12.18 12h1.409a7 7 0 0 0 1.921-1.25h-2.86a9.3 9.3 0 0 1-.47 1.25zm.312-4.5c.174-.782.282-1.623.312-2.5h2.146a7 7 0 0 1 .656 2.5zM11.153 5h2.653c-.187-.765-.306-1.608-.338-2.5H11.153zM10.855 4c-.138-.386-.295-.744-.468-1.068-.552-1.035-1.218-1.65-1.887-1.855V4z"/></svg>
+                        http://www.stmarysnt.catholic.edu.au
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.5.5 0 0 0 .132.477l2.197 2.197c.136.136.32.205.51.182l2.19-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/></svg>
+                        0889819798
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/></svg>
+                        90 Smith St, Darwin City NT 0800
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            2026 &copy; Dripstone Children's Centre
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Desktop Dropdown Logic
+            const navButtons = document.querySelectorAll('.nav-button');
+            const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+
+            function closeAllDropdowns() {
+                dropdownMenus.forEach(menu => menu.classList.remove('active'));
+            }
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const dropdown = button.nextElementSibling;
+                    const isOpen = dropdown && dropdown.classList.contains('active');
+                    
+                    closeAllDropdowns();
+
+                    if (dropdown && !isOpen) {
+                        dropdown.classList.add('active');
+                    }
+                });
+            });
+
+            document.addEventListener('click', () => {
+                closeAllDropdowns();
+            });
+
+            dropdownMenus.forEach(menu => {
+                menu.addEventListener('click', (e) => e.stopPropagation());
+            });
+
+            // Mobile Hamburger Menu Logic
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileNavBtns = document.querySelectorAll('.mobile-nav-btn');
+
+            if (hamburgerBtn) {
+                hamburgerBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    hamburgerBtn.classList.toggle('open');
+                    mobileNav.classList.toggle('active');
+                });
+            }
+
+            // Mobile Accordion Dropdowns
+            mobileNavBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const dropdown = btn.nextElementSibling;
+                    
+                    // Close other open accordions smoothly
+                    document.querySelectorAll('.mobile-dropdown').forEach(drop => {
+                        if (drop !== dropdown) {
+                            drop.classList.remove('active');
+                        }
+                    });
+
+                    // Toggle clicked accordion
+                    if (dropdown) {
+                        dropdown.classList.toggle('active');
+                    }
+                });
+            });
+            
+            // Prevent clicks inside mobile nav from closing it
+            if (mobileNav) {
+                mobileNav.addEventListener('click', (e) => e.stopPropagation());
+            }
+
+            // Close mobile menu if clicked outside
+            document.addEventListener('click', () => {
+                if (hamburgerBtn && hamburgerBtn.classList.contains('open')) {
+                    hamburgerBtn.classList.remove('open');
+                    mobileNav.classList.remove('active');
+                    // reset accordions
+                    document.querySelectorAll('.mobile-dropdown').forEach(drop => drop.classList.remove('active'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

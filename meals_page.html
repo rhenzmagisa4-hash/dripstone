@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dripstone Children's Centre - Standardized Recipe</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333333;
+            background-color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+            zoom: 90%;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- Header Styles --- */
+        .header-main {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            width: 100%;
+        }
+
+        .header-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 2rem; 
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-img {
+            height: 3.5rem; 
+            object-fit: contain;
+            transition: height 0.3s;
+        }
+
+        .desktop-nav {
+            display: none; 
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center; 
+            gap: 2rem;
+            height: 100%;
+        }
+
+        .dropdown-wrapper {
+            position: relative;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 400;
+            color: #E57B3A;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            display: inline-block;
+            line-height: 1;
+            position: relative;
+        }
+
+        .nav-button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #E57B3A;
+            transition: width 0.3s ease, transform 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-button:hover::after, .nav-button.active::after {
+            width: 100%;
+        }
+
+        .nav-button:hover, .nav-button.active {
+            color: #c7652a;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 15px;
+            width: 280px;
+            background-color: #E57B3A;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            max-height: 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            pointer-events: none;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .dropdown-menu.active {
+            max-height: 400px;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .dropdown-menu a {
+            color: #ffffff;
+            font-size: 14px;
+            padding: 5px 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            text-transform: uppercase;
+            transition: background-color 0.2s ease, padding-left 0.2s ease;
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a:hover, .dropdown-menu a.active {
+            background-color: #c7652a;
+            padding-left: 20px; 
+        }
+
+        .hamburger-btn {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 32px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 60;
+        }
+
+        .hamburger-btn span {
+            width: 100%;
+            height: 3px;
+            background-color: #E57B3A;
+            border-radius: 4px;
+            transition: all 0.4s ease-in-out;
+        }
+
+        .hamburger-btn.open span:nth-child(1) { transform: translateY(10.5px); }
+        .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+        .hamburger-btn.open span:nth-child(3) { transform: translateY(-10.5px); }
+
+        .mobile-nav-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background-color: #ffffff;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 45;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out, border-color 0.3s ease;
+            pointer-events: none;
+            border-top: 0 solid #E57B3A;
+            border-bottom: 0 solid #E57B3A;
+        }
+
+        .mobile-nav-container.active {
+            max-height: 800px;
+            opacity: 1;
+            pointer-events: auto;
+            border-top: 2px solid #E57B3A;
+            border-bottom: 2px solid #E57B3A;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #E57B3A;
+        }
+
+        .mobile-nav-btn {
+            background: #ffffff;
+            border: none;
+            padding: 1.25rem 1rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #E57B3A;
+            text-transform: uppercase;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        .mobile-nav-btn:hover, .mobile-nav-link:hover {
+            background-color: #fdf5f0;
+        }
+
+        .mobile-dropdown {
+            display: flex;
+            flex-direction: column;
+            background-color: #E57B3A;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        }
+
+        .mobile-dropdown.active {
+            max-height: 350px;
+            opacity: 1;
+        }
+
+        .mobile-dropdown a {
+            color: #ffffff;
+            font-size: 13px;
+            padding: 1rem;
+            text-transform: uppercase;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            font-weight: 300;
+            transition: background-color 0.3s;
+        }
+        
+        .mobile-dropdown a:last-child {
+            border-bottom: none;
+        }
+        
+        .mobile-dropdown a:hover, .mobile-dropdown a.active {
+            background-color: #c7652a;
+        }
+
+        .mobile-nav-link {
+            padding: 1.25rem 1rem;
+            font-size: 14px;
+            color: #E57B3A;
+            background: #ffffff;
+            text-align: center;
+            text-transform: uppercase;
+            border-bottom: 1px solid #E57B3A;
+            font-weight: 500;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        
+        .mobile-nav-link:last-child {
+            border-bottom: none;
+        }
+
+        /* --- Recipe Main Layout Styles --- */
+        .recipe-layout {
+            display: flex;
+            min-height: calc(100vh - 120px);
+            background-color: #ffffff;
+        }
+
+        .recipe-sidebar {
+            background-color: #E57B3A;
+            color: #ffffff;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            flex-shrink: 0;
+            align-self: flex-start;
+            border-radius: 0 0 4px 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.15rem;
+            font-weight: 600;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+        }
+
+        .sidebar-header svg {
+            width: 24px;
+            height: 24px;
+            fill: #ffffff;
+        }
+
+        .mobile-week-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            width: 100%;
+        }
+
+        .mobile-week-toggle {
+            display: none; 
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            width: 100%;
+        }
+
+        .sidebar-btn {
+            background-color: #ffffff;
+            color: #E57B3A;
+            border: none;
+            padding: 0.85rem 1rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+
+        .sidebar-btn:hover {
+            background-color: #fceadc;
+        }
+
+        .sidebar-btn.active {
+            background-color: #FFEED9;
+            color: #E57B3A;
+            box-shadow: inset 4px 0 0 0 #c7652a;
+        }
+
+        .recipe-main-content {
+            flex-grow: 1;
+            padding: 2rem 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 1300px;
+        }
+
+        .days-tab-bar {
+            display: flex;
+            background-color: #FFEED9;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #E57B3A;
+        }
+
+        .day-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 0.85rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #E57B3A;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-right: 1px solid #E57B3A;
+        }
+
+        .day-tab:last-child {
+            border-right: none;
+        }
+
+        .day-tab.active, .day-tab:hover {
+            background-color: #FFD1A9;
+            color: #E57B3A;
+        }
+
+        .mealtime-tab-bar {
+            display: flex;
+            border-bottom: 2px solid #E57B3A;
+            flex-wrap: wrap;
+        }
+
+        .mealtime-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #E57B3A;
+            padding: 0.85rem 1rem;
+            cursor: pointer;
+            text-align: center;
+            border-top: 1px solid #E57B3A;
+            border-left: 1px solid #E57B3A;
+            border-right: 1px solid #E57B3A;
+            background-color: #ffffff;
+            transition: all 0.2s;
+        }
+
+        .mealtime-tab:not(:last-child) {
+            margin-right: -1px;
+        }
+
+        .mealtime-tab.active, .mealtime-tab:hover {
+            background-color: #E57B3A;
+            color: #ffffff;
+        }
+
+        .recipe-content-container {
+            transition: opacity 0.3s ease;
+        }
+
+        .recipe-content-card {
+            background-color: #ffffff;
+            border: 2px solid #E57B3A;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .recipe-title-banner {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #E57B3A;
+            padding: 1rem;
+            border-bottom: 2px solid #E57B3A;
+        }
+
+        .recipe-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .recipe-table th, .recipe-table td {
+            border: 2px solid #E57B3A;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+        }
+
+        .recipe-table th {
+            background-color: #ffffff;
+            color: #E57B3A;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .recipe-table td {
+            color: #E57B3A;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .recipe-table td:nth-child(1), .recipe-table th:nth-child(1) {
+            text-align: left;
+        }
+
+        .mobile-card-view {
+            display: none;
+        }
+
+        /* --- Procedure & Serving Section --- */
+        .recipe-extras-section {
+            display: flex;
+            background-color: #FFEED9;
+            padding: 1.5rem;
+            gap: 2rem;
+            border-bottom: 2px solid #E57B3A;
+        }
+        
+        .procedure-box {
+            flex: 2;
+        }
+        
+        .serving-box {
+            flex: 1;
+        }
+
+        .recipe-extras-section h3 {
+            color: #E57B3A;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .procedure-content {
+            color: #E57B3A;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .serving-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .serving-table td {
+            border: 2px solid #E57B3A;
+            padding: 10px;
+            background-color: #ffffff;
+            color: #E57B3A;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .serving-table td:first-child {
+            font-weight: 600;
+            width: 40%;
+        }
+
+
+        /* --- Footer Styles --- */
+        .footer-main {
+            padding-top: 2.5rem; 
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem 2.5rem 1rem; 
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem; 
+            align-items: start;
+        }
+
+        .footer-logo img {
+            height: 3.5rem; 
+            object-fit: contain;
+            display: block;
+        }
+
+        .footer-desc p {
+            font-size: 0.8rem; 
+            color: #777777;
+        }
+
+        .footer-desc strong {
+            color: #E57B3A;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .footer-socials svg {
+            width: 24px; 
+            height: 24px;
+            color: #333333;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .footer-socials svg:hover {
+            color: #E57B3A;
+            transform: translateY(-2px);
+        }
+
+        .footer-contact h4 {
+            font-size: 1rem; 
+            margin-bottom: 1rem;
+            color: #000;
+        }
+
+        .footer-contact ul {
+            list-style: none;
+            font-size: 0.8rem; 
+            color: #777777;
+        }
+
+        .footer-contact li {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            word-break: break-word;
+            transition: color 0.2s;
+        }
+        
+        .footer-contact li:hover {
+            color: #E57B3A;
+        }
+
+        .footer-contact svg {
+            width: 14px; 
+            height: 14px;
+            flex-shrink: 0;
+            color: #333;
+        }
+
+        .footer-bottom {
+            background-color: #E57B3A;
+            color: #ffffff;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- Media Queries --- */
+        @media (min-width: 1024px) {
+            .header-container { padding: 1rem 1.5rem; }
+            .logo-img { height: 5rem; }
+            .hamburger-btn { display: none; }
+            .mobile-nav-container { display: none !important; }
+            .desktop-nav { display: flex; }
+            
+            .footer-main { padding-top: 4rem; }
+            .footer-container {
+                grid-template-columns: 1fr 1.5fr 1fr; 
+                gap: 2rem;
+                padding: 0 1.5rem 4rem 1.5rem;
+            }
+            .footer-logo img { height: 5rem; }
+            .footer-desc p, .footer-contact ul { font-size: 0.875rem; }
+            .footer-contact h4 { font-size: 1.125rem; }
+            .footer-socials svg { width: 30px; height: 30px; }
+            .footer-contact svg { width: 16px; height: 16px; }
+        }
+
+        @media (max-width: 900px) {
+            .recipe-layout {
+                flex-direction: column;
+            }
+            
+            .recipe-sidebar {
+                width: 100%;
+                background-color: transparent;
+                padding: 1.5rem 1rem 0.5rem 1rem;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .sidebar-header {
+                color: #E57B3A;
+                border-bottom: none;
+                justify-content: center;
+                font-size: 1.25rem;
+                padding-bottom: 0;
+            }
+            
+            .sidebar-header svg {
+                display: block; /* Make icon visible on mobile/tablet */
+                fill: #E57B3A;  /* Match the orange text color */
+            }
+
+            .mobile-week-wrapper {
+                position: relative;
+                width: 220px;
+                margin: 0 auto;
+                z-index: 20;
+            }
+
+            .mobile-week-toggle {
+                display: block;
+                background-color: #E57B3A;
+                color: #ffffff;
+                padding: 0.75rem 1rem;
+                text-align: center;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 500;
+                font-size: 0.9rem;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+
+            /* --- UPDATED MOBILE DROPDOWN --- */
+            .sidebar-nav {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #ffffff; /* White background */
+                border: 2px solid #E57B3A; /* Orange Border */
+                border-top: none;
+                border-radius: 0 0 4px 4px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                gap: 0;
+                overflow: hidden;
+                
+                /* Animation properties */
+                max-height: 0;
+                opacity: 0;
+                visibility: hidden;
+                transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out, visibility 0.4s;
+            }
+
+            .sidebar-nav.dropdown-active {
+                max-height: 450px;
+                opacity: 1;
+                visibility: visible;
+                transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out, visibility 0s;
+            }
+
+            .sidebar-btn {
+                background-color: #ffffff;
+                color: #E57B3A;
+                box-shadow: none;
+                border-radius: 0;
+                border-bottom: 1px solid #E57B3A; /* Orange divider */
+                font-weight: 500;
+                padding: 0.75rem 1rem;
+                transition: background-color 0.2s, color 0.2s;
+            }
+            
+            .sidebar-btn:last-child {
+                border-bottom: none;
+            }
+
+            .sidebar-btn.active, .sidebar-btn:hover {
+                background-color: #FFEED9; /* Darker white/peach hover effect */
+                color: #E57B3A;
+                box-shadow: none;
+            }
+
+            .recipe-main-content {
+                padding: 1rem;
+            }
+            
+            .recipe-extras-section {
+                flex-direction: column;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .desktop-table-view {
+                display: none;
+            }
+            .mobile-card-view {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1rem;
+                border-bottom: 2px solid #E57B3A;
+            }
+            .ingredient-card {
+                border: 2px solid #E57B3A;
+                border-radius: 4px;
+                background-color: #ffffff;
+                overflow: hidden;
+            }
+            .ingredient-card-header {
+                text-align: center;
+                font-size: 1.05rem;
+                font-weight: 600;
+                color: #E57B3A;
+                padding: 0.75rem;
+                border-bottom: 2px solid #E57B3A;
+            }
+            .ingredient-card-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+            .card-cell {
+                border-right: 2px solid #E57B3A;
+                border-bottom: 2px solid #E57B3A;
+                padding: 0.75rem;
+                text-align: center;
+            }
+            .card-cell:nth-child(even) {
+                border-right: none;
+            }
+            .card-cell.full-width {
+                grid-column: span 2;
+                border-right: none;
+            }
+            .card-cell:last-child {
+                border-bottom: none;
+            }
+            .cell-label {
+                font-size: 0.8rem;
+                color: #E57B3A;
+                font-weight: 600;
+                margin-bottom: 0.25rem;
+            }
+            .cell-value {
+                font-size: 0.9rem;
+                color: #E57B3A;
+                font-weight: 500;
+            }
+            .mealtime-tab-bar {
+                flex-direction: column;
+                border: none;
+            }
+            .mealtime-tab {
+                border: 1px solid #E57B3A;
+                margin-bottom: 4px;
+                margin-right: 0 !important;
+                border-radius: 4px;
+            }
+            .days-tab-bar {
+                flex-wrap: wrap;
+            }
+            .day-tab {
+                border-bottom: 1px solid #E57B3A;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Embedded Header -->
+    <header class="header-main">
+        <div class="header-container">
+            <a href="index.html" class="logo-link">
+                <img src="photos/logo.png" alt="Dripstone Children's Centre Logo" class="logo-img">
+            </a>
+            
+            <nav class="nav-menu desktop-nav">
+                <div class="dropdown-wrapper">
+                    <button class="nav-button active">OUR CENTER</button>
+                    <div class="dropdown-menu">
+                        <a href="meals_page.html" class="active">Meals</a>
+                        <a href="communication_page.html">A PLACE FOR PEOPLE, BIG & SMALL</a>
+                        <a href="teams_page.html">MEET OUR TEAM</a>
+                    </div>
+                </div>
+                <div class="dropdown-wrapper">
+                    <button class="nav-button">DRIPSTONE WAY ETHOS AND VALUES</button>
+                    <div class="dropdown-menu">
+                        <a href="ourvalues_page.html">OUR VALUES</a>
+                        <a href="walking_lightly_page.html">WALKING LIGHTLY ON THE LAND</a>
+                        <a href="committee_page.html">COMMITTEE</a>
+                    </div>
+                </div>
+                <div class="dropdown-wrapper">
+                    <a href="joinus_page.html" class="nav-button">JOIN US</a>
+                </div>
+                <div class="dropdown-wrapper">
+                    <a href="getintouch_page.html" class="nav-button">GET IN TOUCH</a>
+                </div>
+            </nav>
+
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <div class="mobile-nav-container" id="mobileNav">
+            <div class="mobile-nav-item">
+                <button class="mobile-nav-btn">OUR CENTER</button>
+                <div class="mobile-dropdown">
+                    <a href="meals_page.html" class="active">MEALS</a>
+                    <a href="communication_page.html">A PLACE FOR PEOPLE BIG & SMALL</a>
+                    <a href="teams_page.html">MEET OUR TEAM</a>
+                </div>
+            </div>
+            <div class="mobile-nav-item">
+                <button class="mobile-nav-btn">DRIPSTONE WAY ETHOS AND VALUES</button>
+                <div class="mobile-dropdown">
+                    <a href="ourvalues_page.html">OUR VALUES</a>
+                    <a href="walking_lightly_page.html">WALKING LIGHTLY ON THE LAND</a>
+                    <a href="committee_page.html">COMMITTEE & CHILDREN'S COMMITTEE</a>
+                </div>
+            </div>
+            <a href="joinus_page.html" class="mobile-nav-link">JOIN US</a>
+            <a href="getintouch_page.html" class="mobile-nav-link">GET IN TOUCH</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="recipe-layout">
+        <aside class="recipe-sidebar" id="recipeSidebar">
+            <div class="sidebar-header">
+                <!-- Food Icon Updated Here -->
+                <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
+                <span>Standardized Recipe</span>
+            </div>
+            
+            <div class="mobile-week-wrapper">
+                <div class="mobile-week-toggle" id="mobileWeekToggle">WEEK 1</div>
+                <div class="sidebar-nav" id="sidebarNavMenu">
+                    <button class="sidebar-btn active" data-type="week" data-val="WEEK 1">WEEK 1</button>
+                    <button class="sidebar-btn" data-type="week" data-val="WEEK 2">WEEK 2</button>
+                    <button class="sidebar-btn" data-type="week" data-val="WEEK 3">WEEK 3</button>
+                    <button class="sidebar-btn" data-type="week" data-val="WEEK 4">WEEK 4</button>
+                    <button class="sidebar-btn" data-type="week" data-val="WEEK 5">WEEK 5</button>
+                    <button class="sidebar-btn" data-type="week" data-val="WEEK 6">WEEK 6</button>
+                    <button class="sidebar-btn" data-type="week" data-val="Chef's Special">CHEF'S SPECIAL</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="recipe-main-content">
+            <div class="days-tab-bar">
+                <button class="day-tab active" data-type="day" data-val="MONDAY">MONDAY</button>
+                <button class="day-tab" data-type="day" data-val="TUE">TUE</button>
+                <button class="day-tab" data-type="day" data-val="WED">WED</button>
+                <button class="day-tab" data-type="day" data-val="THUR">THUR</button>
+                <button class="day-tab" data-type="day" data-val="FRI">FRI</button>
+            </div>
+
+            <div class="mealtime-tab-bar">
+                <button class="mealtime-tab active" data-type="meal" data-val="Morning and Afternoon Tea">Morning and Afternoon Tea</button>
+                <button class="mealtime-tab" data-type="meal" data-val="Morning Tea">Morning Tea</button>
+                <button class="mealtime-tab" data-type="meal" data-val="Lunch">Lunch</button>
+                <button class="mealtime-tab" data-type="meal" data-val="Afternoon Tea">Afternoon Tea</button>
+            </div>
+
+            <div class="recipe-content-container" id="recipeContent">
+                <div class="recipe-content-card">
+                    <div class="recipe-title-banner" id="dynamicTitle">
+                        <!-- Injected by JS -->
+                    </div>
+
+                    <!-- Desktop Table -->
+                    <div class="desktop-table-view">
+                        <table class="recipe-table">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="width: 20%;">Ingredient</th>
+                                    <th rowspan="2" style="width: 15%;">Brand</th>
+                                    <th rowspan="2" style="width: 10%;">0</th>
+                                    <th colspan="2" style="width: 15%;">Amount</th>
+                                    <th rowspan="2" style="width: 20%;">Common Allergen in the ingredients</th>
+                                    <th rowspan="2" style="width: 20%;">Common Allergen in the Precautionary Allergen Labelling (PAL) Statement</th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 7.5%;">Quantity</th>
+                                    <th style="width: 7.5%;">Units</th>
+                                </tr>
+                            </thead>
+                            <tbody id="desktopTableBody">
+                                <!-- Injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mobile Cards -->
+                    <div class="mobile-card-view" id="mobileCardsContainer">
+                        <!-- Injected by JS -->
+                    </div>
+                    
+                    <!-- Procedure and Serving Section -->
+                    <div class="recipe-extras-section">
+                        <div class="procedure-box">
+                            <h3>Procedure</h3>
+                            <div class="procedure-content" id="procedureText">
+                                <!-- Injected by JS -->
+                            </div>
+                        </div>
+                        
+                        <div class="serving-box">
+                            <h3>Serving</h3>
+                            <table class="serving-table">
+                                <tbody>
+                                    <tr>
+                                        <td>Yield</td>
+                                        <td id="servingYield">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Portion Size</td>
+                                        <td id="servingPortion">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Serves</td>
+                                        <td id="servingServes">0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Embedded Footer -->
+    <footer class="footer-main">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="photos/logo.png" alt="Dripstone Children's Centre Logo">
+            </div>
+            <div class="footer-desc">
+                <p><strong>Dripstone Children's Centre</strong> provides a nurturing, nature-inspired environment where children learn, grow, and develop lifelong healthy habits.</p>
+                <div class="footer-socials">
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path></svg>
+                    </a>
+                    <a href="#">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"></path></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li>
+                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.5-6.923c-.67.204-1.335.82-1.887 1.855A8 8 0 0 0 5.145 4H7.5zM4.09 4a9.3 9.3 0 0 1 .64-1.539 7 7 0 0 1 .597-.933A7.03 7.03 0 0 0 2.255 4zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a7 7 0 0 0-.656 2.5zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5zM8.5 5v2.5h2.99a12.5 12.5 0 0 0-.337-2.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12zm.946 1.352c-.213-.33-.413-.711-.597-1.127A7 7 0 0 0 4.09 12h1.408zm3.805 1.127a9.3 9.3 0 0 1-.597 1.127 7 7 0 0 0 2.457-1.127h-1.408zM8.5 14.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1.423c.18-.386.34-.8.47-1.25H14.1a7 7 0 0 0-1.92-1.25zM12.18 12h1.409a7 7 0 0 0 1.921-1.25h-2.86a9.3 9.3 0 0 1-.47 1.25zm.312-4.5c.174-.782.282-1.623.312-2.5h2.146a7 7 0 0 1 .656 2.5zM11.153 5h2.653c-.187-.765-.306-1.608-.338-2.5H11.153zM10.855 4c-.138-.386-.295-.744-.468-1.068-.552-1.035-1.218-1.65-1.887-1.855V4z"/></svg>
+                        http://www.stmarysnt.catholic.edu.au
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.5.5 0 0 0 .132.477l2.197 2.197c.136.136.32.205.51.182l2.19-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/></svg>
+                        0889819798
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/></svg>
+                        90 Smith St, Darwin City NT 0800
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            2026 &copy; Dripstone Children's Centre
+        </div>
+    </footer>
+
+    <!-- Interactive Data Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. Header Navigation Logic ---
+            const navButtons = document.querySelectorAll('.desktop-nav .nav-button');
+            const dropdownMenus = document.querySelectorAll('.desktop-nav .dropdown-menu');
+
+            function closeAllDropdowns() {
+                dropdownMenus.forEach(menu => menu.classList.remove('active'));
+            }
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const dropdown = button.nextElementSibling;
+                    const isOpen = dropdown && dropdown.classList.contains('active');
+                    closeAllDropdowns();
+                    if (dropdown && !isOpen) { dropdown.classList.add('active'); }
+                });
+            });
+
+            document.addEventListener('click', closeAllDropdowns);
+            dropdownMenus.forEach(menu => menu.addEventListener('click', e => e.stopPropagation()));
+
+            // Mobile Hamburger
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileNavBtns = document.querySelectorAll('.mobile-nav-btn');
+
+            if (hamburgerBtn) {
+                hamburgerBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    hamburgerBtn.classList.toggle('open');
+                    mobileNav.classList.toggle('active');
+                });
+            }
+
+            mobileNavBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const dropdown = btn.nextElementSibling;
+                    document.querySelectorAll('.mobile-dropdown').forEach(drop => {
+                        if (drop !== dropdown) drop.classList.remove('active');
+                    });
+                    if (dropdown) dropdown.classList.toggle('active');
+                });
+            });
+            
+            if (mobileNav) mobileNav.addEventListener('click', e => e.stopPropagation());
+
+            document.addEventListener('click', () => {
+                if (hamburgerBtn && hamburgerBtn.classList.contains('open')) {
+                    hamburgerBtn.classList.remove('open');
+                    mobileNav.classList.remove('active');
+                    document.querySelectorAll('.mobile-dropdown').forEach(drop => drop.classList.remove('active'));
+                }
+            });
+
+
+            // --- 2. Dynamic Recipe Database ---
+            
+            const recipeDatabase = {
+                "WEEK 1": {
+                    "MONDAY": {
+                        "Morning and Afternoon Tea": {
+                            title: "Fresh Fruit Platter",
+                            ingredients: [
+                                { name: "Apple", brand: "Fresh", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Orange", brand: "Fresh", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Watermelon", brand: "Fresh", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Rockmelon", brand: "Fresh", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Honey Dew", brand: "Fresh", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Banana", brand: "Fresh", qty: "500", unit: "Grams", allergen: "-", pal: "-" }
+                            ],
+                            procedure: "Slice and Cut all the fruits and arrange in the platters.<br><br>***Check for the fruit allergy***",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        },
+                        "Morning Tea": {
+                            title: "Baked Beans with Wholemeal Bread",
+                            ingredients: [
+                                { name: "Baked Beans", brand: "Heinz", qty: "6 (555)", unit: "Grams", allergen: "Soy", pal: "&nbsp;" },
+                                { name: "Wholemeal Bread", brand: "Coles", qty: "1050", unit: "Grams", allergen: "Wheat Soy Gluten", pal: "Sesame" },
+                                { name: "Nuttelex", brand: "Nuttelex", qty: "-", unit: "&nbsp;", allergen: "-", pal: "-" },
+                                { name: "-", brand: "-", qty: "-", unit: "-", allergen: "-", pal: "" },
+                                { name: "Gluten Free Bread", brand: "Abbott's Bakery", qty: "100", unit: "Grams", allergen: "Eggs", pal: "Soy" },
+                                { name: "-", brand: "-", qty: "-", unit: "-", allergen: "-", pal: "" }
+                            ],
+                            procedure: "Step 1: Reheat the baked beans in the oven (170 degree Celsius for 15 - 20 minutes) or until it reaches the 75 degree Celsius or higher.<br><br>Step 2: Toast the bread and buttered then cut it triangular shape.<br><br>Step 3: For the Gluten Free Bread, cleaned thoroughly the toaster or used the oven to toast the bread.",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        },
+                        "Lunch": {
+                            title: "Chicken Cheese Wraps with Vegetable Salad",
+                            ingredients: [
+                                { name: "Wrap Original", brand: "Mission", qty: "6", unit: "Packs", allergen: "-", pal: "-" },
+                                { name: "Chicken Tenders", brand: "Ingham", qty: "2", unit: "Kg", allergen: "Wheat Soy Barley Gluten", pal: "Eggmilk" },
+                                { name: "Lettuce", brand: "Fresh", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Tomato", brand: "Fresh", qty: "350", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Cucumber", brand: "Fresh", qty: "3", unit: "Pcs", allergen: "-", pal: "-" },
+                                { name: "Cheese", brand: "Fresh", qty: "350", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Gluten Wraps", brand: "-", qty: "-", unit: "-", allergen: "-", pal: "-" },
+                                { name: "Cheese (Dairy Free)", brand: "Bio Cheese", qty: "100", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Chicken", brand: "Coles/Fresh", qty: "250", unit: "Grams", allergen: "-", pal: "-" }
+                            ],
+                            procedure: "Step: Cooked the chicken tenders in the oven (175 degree celsius in 30 minutes) the internal temperature should be 75 degree celsius or higher. <br><br>Step 2: Slice the vegetables, tomato, cucumber and carrots, Lettuce should be shredded.<br><br>Step 3: For the Gluten Free Bread, cleaned thoroughly the toaster or used the oven to toast the bread.",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        },
+                        "Afternoon Tea": {
+                            title: "Banana Muffin",
+                            ingredients: [
+                                { name: "Banana", brand: "Fresh", qty: "1.5", unit: "Kg", allergen: "-", pal: "-" },
+                                { name: "Sel-Raising Flour", brand: "Coles", qty: "2", unit: "Kg", allergen: "Wheat/Gluten", pal: "-" },
+                                { name: "Baking Powder", brand: "Mc kenzie", qty: "20", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Cinnamon", brand: "Coles", qty: "30", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Dates Pure (Used Ads Sweetner)", brand: "Coles", qty: "500", unit: "Grams", allergen: "-", pal: "Milk Sesame Soy Gluten Peanut" },
+                                { name: "Nuttelex", brand: "Nuttelex", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Vanilla", brand: "Coles", qty: "30", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Soy Milk/Oat Milk (for dairy allergy)", brand: "Coles", qty: "2", unit: "Liters", allergen: "Soy", pal: "-" },
+                                { name: "Gluten Free Flour (for dairy allergy)", brand: "Coles", qty: "2", unit: "Liters", allergen: "", pal: "-" }
+                            ],
+                            procedure: "Step 1: Preheat oven to 180 degree Celsius.<br><br>Step 2: whist the flour, baking powder, and cinnamon together in a big bowl. Set a side. In a large bowl mash the banana, whisk in the melted butter, dates puree vanilla extract and milk. Pour the dry ingredients into the wet ingredients, then whisk until combine.<br><br>Step 3: Spoon the batter into liner, filling them all the way to the top. Baked for 20-25 minutes or until a toothpick inserted in the centre comes out clean.",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        }
+                    },
+                    "TUE": {
+                        "Morning and Afternoon Tea": {
+                            title: "Fresh Fruit and Yogurt",
+                            ingredients: [
+                                { name: "Apple", brand: "Fresh", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Orange", brand: "Fresh", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Watermelon", brand: "Fresh", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Rockmelon", brand: "Fresh", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Vanilla Yogurt", brand: "Coles", qty: "2", unit: "Kg", allergen: "Milk", pal: "-" },
+                                { name: "Coconut Yogurt (Dairy Free)", brand: "Coles", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                         
+                            ],
+                            procedure: "Cut into Dice.<br><br>***Check for the fruit allergy***",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        },
+                        "Morning Tea": {
+                            title: "Lunch Feasdt Vegetable Pasta",
+                            ingredients: [
+                                { name: "Pasta", brand: "Coles", qty: "2.5", unit: "Kg", allergen: "Wheat Gluten", pal: "egg Soy" },
+                                { name: "Pasta Sauce", brand: "Coles", qty: "1.4", unit: "Kg", allergen: "-", pal: "-" },
+                                { name: "Mix Vegetable", brand: "Coles", qty: "1", unit: "Kg", allergen: "-", pal: "-" },
+                                { name: "salt", brand: "Coles", qty: "30", unit: "Grams", allergen: "-", pal: "" },
+                                { name: "Pepper", brand: "Coles", qty: "30", unit: "Grams", allergen: "Eggs", pal: "Soy" },
+                                { name: "Oregano", brand: "hoyts", qty: "50", unit: "Grams", allergen: "-", pal: "" },
+                                { name: "Gluten Free Pasta", brand: "Coles", qty: "100", unit: "Grams", allergen: "-", pal: "" }
+                            ],
+                            procedure: "Step 1: In a boiling water with salt andcanola oil, boil the pasta for 8 minutes or it until al dente.<br><br>Step 2: In a big sauce pan, combine the pasta sauce, oregano, salt and pepperand simmer.",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        },
+                        "Lunch": {
+                            title: "Rice Cake Crackers Cheese Cube and Sultanas",
+                            ingredients: [
+                                { name: "Rice Cake Crackers", brand: "Coles", qty: "4", unit: "Packs", allergen: "-", pal: "-" },
+                                { name: "Cheese Cube", brand: "Bega", qty: "1", unit: "Kg", allergen: "Dairy", pal: "-" },
+                                { name: "Dried Sultanas", brand: "Coles", qty: "250", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Dairy Free Cheese", brand: "Bio Cheese", qty: "-", unit: "Grams", allergen: "-", pal: "Wheat tree nuts milk sesame soy gluten" },
+                            ],
+                            procedure: "Step: Cooked the chicken tenders in the oven (175 degree celsius in 30 minutes) the internal temperature should be 75 degree celsius or higher. <br><br>Step 2: Slice the vegetables, tomato, cucumber and carrots, Lettuce should be shredded.<br><br>Step 3: For the Gluten Free Bread, cleaned thoroughly the toaster or used the oven to toast the bread.",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        },
+                        "Afternoon Tea": {
+                            title: "Banana Muffin",
+                            ingredients: [
+                                { name: "Banana", brand: "Fresh", qty: "1.5", unit: "Kg", allergen: "-", pal: "-" },
+                                { name: "Sel-Raising Flour", brand: "Coles", qty: "2", unit: "Kg", allergen: "Wheat/Gluten", pal: "-" },
+                                { name: "Baking Powder", brand: "Mc kenzie", qty: "20", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Cinnamon", brand: "Coles", qty: "30", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Dates Pure (Used Ads Sweetner)", brand: "Coles", qty: "500", unit: "Grams", allergen: "-", pal: "Milk Sesame Soy Gluten Peanut" },
+                                { name: "Nuttelex", brand: "Nuttelex", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Vanilla", brand: "Coles", qty: "30", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Soy Milk/Oat Milk (for dairy allergy)", brand: "Coles", qty: "2", unit: "Liters", allergen: "Soy", pal: "-" },
+                                { name: "Gluten Free Flour (for dairy allergy)", brand: "Coles", qty: "2", unit: "Liters", allergen: "", pal: "-" }
+                            ],
+                            procedure: "Step 1: Preheat oven to 180 degree Celsius.<br><br>Step 2: whist the flour, baking powder, and cinnamon together in a big bowl. Set a side. In a large bowl mash the banana, whisk in the melted butter, dates puree vanilla extract and milk. Pour the dry ingredients into the wet ingredients, then whisk until combine.<br><br>Step 3: Spoon the batter into liner, filling them all the way to the top. Baked for 20-25 minutes or until a toothpick inserted in the centre comes out clean.",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        }
+                    },
+                    "WED": {
+                        "Morning and Afternoon Tea": {
+                            title: "Fresh Fruit Platter",
+                            ingredients: [
+                                { name: "Apple", brand: "Fresh", qty: "500", unit: "Grams", allergen: "&nbsp;", pal: "&nbsp;" },
+                                { name: "Orange", brand: "Fresh", qty: "500", unit: "Grams", allergen: "&nbsp;", pal: "&nbsp;" },
+                                { name: "Watermelon", brand: "Fresh", qty: "500", unit: "Grams", allergen: "&nbsp;", pal: "&nbsp;" },
+                                { name: "Rockmelon", brand: "Fresh", qty: "500", unit: "Grams", allergen: "&nbsp;", pal: "&nbsp;" },
+                                { name: "Honey Dew", brand: "Fresh", qty: "500", unit: "Grams", allergen: "&nbsp;", pal: "&nbsp;" },
+                                { name: "Banana", brand: "Fresh", qty: "500", unit: "Grams", allergen: "&nbsp;", pal: "&nbsp;" }
+                            ],
+                            procedure: "Slice and Cut all the fruits and arrange in the platters.<br><br>***Check for the fruit allergy***",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        },
+                        "Morning Tea": {
+                            title: "Baked Beans with Wholemeal Bread",
+                            ingredients: [
+                                { name: "Baked Beans", brand: "Heinz", qty: "6 (555)", unit: "Grams", allergen: "Soy", pal: "&nbsp;" },
+                                { name: "Wholemeal Bread", brand: "Coles", qty: "1050", unit: "Grams", allergen: "Wheat Soy Gluten", pal: "Sesame" },
+                                { name: "Nuttelex", brand: "Nuttelex", qty: "-", unit: "&nbsp;", allergen: "-", pal: "-" },
+                                { name: "-", brand: "-", qty: "-", unit: "-", allergen: "-", pal: "" },
+                                { name: "Gluten Free Bread", brand: "Abbott's Bakery", qty: "100", unit: "Grams", allergen: "Eggs", pal: "Soy" },
+                                { name: "-", brand: "-", qty: "-", unit: "-", allergen: "-", pal: "" }
+                            ],
+                            procedure: "Step 1: Reheat the baked beans in the oven (170 degree Celsius for 15 - 20 minutes) or until it reaches the 75 degree Celsius or higher.<br><br>Step 2: Toast the bread and buttered then cut it triangular shape.<br><br>Step 3: For the Gluten Free Bread, cleaned thoroughly the toaster or used the oven to toast the bread.",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        },
+                        "Lunch": {
+                            title: "Chicken Cheese Wraps with Vegetable Salad",
+                            ingredients: [
+                                { name: "Wrap Original", brand: "Mission", qty: "6", unit: "Packs", allergen: "-", pal: "-" },
+                                { name: "Chicken Tenders", brand: "Ingham", qty: "2", unit: "Kg", allergen: "Wheat Soy Barley Gluten", pal: "Eggmilk" },
+                                { name: "Lettuce", brand: "Fresh", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Tomato", brand: "Fresh", qty: "350", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Cucumber", brand: "Fresh", qty: "3", unit: "Pcs", allergen: "-", pal: "-" },
+                                { name: "Cheese", brand: "Fresh", qty: "350", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Gluten Wraps", brand: "-", qty: "-", unit: "-", allergen: "-", pal: "-" },
+                                { name: "Cheese (Dairy Free)", brand: "Bio Cheese", qty: "100", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Chicken", brand: "Coles/Fresh", qty: "250", unit: "Grams", allergen: "-", pal: "-" }
+                            ],
+                            procedure: "Step: Cooked the chicken tenders in the oven (175 degree celsius in 30 minutes) the internal temperature should be 75 degree celsius or higher. <br><br>Step 2: Slice the vegetables, tomato, cucumber and carrots, Lettuce should be shredded.<br><br>Step 3: For the Gluten Free Bread, cleaned thoroughly the toaster or used the oven to toast the bread.",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        },
+                        "Afternoon Tea": {
+                            title: "Banana Muffin",
+                            ingredients: [
+                                { name: "Banana", brand: "Fresh", qty: "1.5", unit: "Kg", allergen: "-", pal: "-" },
+                                { name: "Sel-Raising Flour", brand: "Coles", qty: "2", unit: "Kg", allergen: "Wheat/Gluten", pal: "-" },
+                                { name: "Baking Powder", brand: "Mc kenzie", qty: "20", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Cinnamon", brand: "Coles", qty: "30", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Dates Pure (Used Ads Sweetner)", brand: "Coles", qty: "500", unit: "Grams", allergen: "-", pal: "Milk Sesame Soy Gluten Peanut" },
+                                { name: "Nuttelex", brand: "Nuttelex", qty: "500", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Vanilla", brand: "Coles", qty: "30", unit: "Grams", allergen: "-", pal: "-" },
+                                { name: "Soy Milk/Oat Milk (for dairy allergy)", brand: "Coles", qty: "2", unit: "Liters", allergen: "Soy", pal: "-" },
+                                { name: "Gluten Free Flour (for dairy allergy)", brand: "Coles", qty: "2", unit: "Liters", allergen: "", pal: "-" }
+                            ],
+                            procedure: "Step 1: Preheat oven to 180 degree Celsius.<br><br>Step 2: whist the flour, baking powder, and cinnamon together in a big bowl. Set a side. In a large bowl mash the banana, whisk in the melted butter, dates puree vanilla extract and milk. Pour the dry ingredients into the wet ingredients, then whisk until combine.<br><br>Step 3: Spoon the batter into liner, filling them all the way to the top. Baked for 20-25 minutes or until a toothpick inserted in the centre comes out clean.",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        }
+                    }
+                },
+                "WEEK 2": {
+                    "MONDAY": {
+                        "Morning and Afternoon Tea": {
+                            title: "Fresh Fruit Platter",
+                            ingredients: [
+                                { name: "Apple", brand: "Fresh", qty: "500", unit: "Grams", allergen: "&nbsp;", pal: "&nbsp;" },
+                                { name: "Orange", brand: "Fresh", qty: "500", unit: "Grams", allergen: "&nbsp;", pal: "&nbsp;" },
+                                { name: "Watermelon", brand: "Fresh", qty: "500", unit: "Grams", allergen: "&nbsp;", pal: "&nbsp;" },
+                                { name: "Rockmelon", brand: "Fresh", qty: "500", unit: "Grams", allergen: "&nbsp;", pal: "&nbsp;" },
+                                { name: "Honey Dew", brand: "Fresh", qty: "500", unit: "Grams", allergen: "&nbsp;", pal: "&nbsp;" }
+                            ],
+                            procedure: "Slice and Cut all the fruits and arrange in the platters.<br><br>***Check for the fruit allergy***",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        },
+                        "Morning Tea": {
+                            title: "Baked Beans with Wholemeal Bread",
+                            ingredients: [
+                                { name: "Baked Beans", brand: "Heinz", qty: "6 (555)", unit: "Grams", allergen: "Soy", pal: "&nbsp;" },
+                                { name: "Wholemeal Bread", brand: "Coles", qty: "1050", unit: "Grams", allergen: "Wheat Soy Gluten", pal: "Sesame" },
+                                { name: "Nuttelex", brand: "Nuttelex", qty: "&nbsp;", unit: "&nbsp;", allergen: "&nbsp;", pal: "&nbsp;" },
+                                { name: "Gluten Free Bread", brand: "Abbott's Bakery", qty: "100", unit: "Grams", allergen: "Eggs", pal: "Soy" }
+                            ],
+                            procedure: "Step 1: Reheat the baked beans in the oven (170 degree Celsius for 15 - 20 minutes) or until it reaches the 75 degree Celsius or higher.<br><br>Step 2: Toast the bread and buttered then cut it triangular shape.<br><br>Step 3: For the Gluten Free Bread, cleaned thoroughly the toaster or used the oven to toast the bread.",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        },
+                        "Lunch": {
+                            title: "Baked Beans with Wholemeal Bread",
+                            ingredients: [
+                                { name: "Baked Beans", brand: "Heinz", qty: "6 (555)", unit: "Grams", allergen: "Soy", pal: "&nbsp;" },
+                                { name: "Wholemeal Bread", brand: "Coles", qty: "1050", unit: "Grams", allergen: "Wheat Soy Gluten", pal: "Sesame" },
+                                { name: "Nuttelex", brand: "Nuttelex", qty: "&nbsp;", unit: "&nbsp;", allergen: "&nbsp;", pal: "&nbsp;" },
+                                { name: "Gluten Free Bread", brand: "Abbott's Bakery", qty: "100", unit: "Grams", allergen: "Eggs", pal: "Soy" }
+                            ],
+                            procedure: "Step 1: Reheat the baked beans in the oven (170 degree Celsius for 15 - 20 minutes) or until it reaches the 75 degree Celsius or higher.<br><br>Step 2: Toast the bread and buttered then cut it triangular shape.<br><br>Step 3: For the Gluten Free Bread, cleaned thoroughly the toaster or used the oven to toast the bread.",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        },
+                        "Afternoon Tea": {
+                            title: "Baked Beans with Wholemeal Bread",
+                            ingredients: [
+                                { name: "Baked Beans", brand: "Heinz", qty: "6 (555)", unit: "Grams", allergen: "Soy", pal: "&nbsp;" },
+                                { name: "Wholemeal Bread", brand: "Coles", qty: "1050", unit: "Grams", allergen: "Wheat Soy Gluten", pal: "Sesame" },
+                                { name: "Nuttelex", brand: "Nuttelex", qty: "&nbsp;", unit: "&nbsp;", allergen: "&nbsp;", pal: "&nbsp;" },
+                                { name: "Gluten Free Bread", brand: "Abbott's Bakery", qty: "100", unit: "Grams", allergen: "Eggs", pal: "Soy" }
+                            ],
+                            procedure: "Step 1: Reheat the baked beans in the oven (170 degree Celsius for 15 - 20 minutes) or until it reaches the 75 degree Celsius or higher.<br><br>Step 2: Toast the bread and buttered then cut it triangular shape.<br><br>Step 3: For the Gluten Free Bread, cleaned thoroughly the toaster or used the oven to toast the bread.",
+                            serving: { yield: "40 - 45", portionSize: "100 - 120 grams", serves: "40 - 45" }
+                        }
+                    }
+                }
+            };
+
+            // Placeholder template used when no real data exists for a clicked tab
+            const placeholderData = {
+                title: "0",
+                ingredients: [
+                    { name: "0", brand: "0", qty: "0", unit: "0", allergen: "0", pal: "0" },
+                    { name: "0", brand: "0", qty: "0", unit: "0", allergen: "0", pal: "0" },
+                    { name: "0", brand: "0", qty: "0", unit: "0", allergen: "0", pal: "0" }
+                ],
+                procedure: "0",
+                serving: { yield: "0", portionSize: "0", serves: "0" }
+            };
+
+
+            // --- 3. Rendering Engine ---
+            let currentState = {
+                week: "WEEK 1",
+                day: "MONDAY",
+                meal: "Morning and Afternoon Tea"
+            };
+
+            const desktopTableBody = document.getElementById('desktopTableBody');
+            const mobileCardsContainer = document.getElementById('mobileCardsContainer');
+            const dynamicTitle = document.getElementById('dynamicTitle');
+            const procedureText = document.getElementById('procedureText');
+            const servingYield = document.getElementById('servingYield');
+            const servingPortion = document.getElementById('servingPortion');
+            const servingServes = document.getElementById('servingServes');
+            const recipeContent = document.getElementById('recipeContent');
+
+            function renderRecipe() {
+                // Fade out animation
+                recipeContent.style.opacity = '0';
+                
+                setTimeout(() => {
+                    // Try to find the data in our DB, otherwise fallback to placeholders
+                    let dataToRender = placeholderData;
+                    if (recipeDatabase[currentState.week] && 
+                        recipeDatabase[currentState.week][currentState.day] && 
+                        recipeDatabase[currentState.week][currentState.day][currentState.meal]) {
+                        
+                        dataToRender = recipeDatabase[currentState.week][currentState.day][currentState.meal];
+                    }
+
+                    // 1. Update Title
+                    dynamicTitle.textContent = dataToRender.title;
+
+                    // 2. Clear Tables/Cards
+                    desktopTableBody.innerHTML = '';
+                    mobileCardsContainer.innerHTML = '';
+
+                    // 3. Loop through ingredients and build HTML
+                    dataToRender.ingredients.forEach(item => {
+                        
+                        // Build Desktop Row (includes new "0" column)
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${item.name}</td>
+                            <td>${item.brand}</td>
+                            <td>0</td>
+                            <td>${item.qty}</td>
+                            <td>${item.unit}</td>
+                            <td>${item.allergen}</td>
+                            <td>${item.pal}</td>
+                        `;
+                        desktopTableBody.appendChild(tr);
+
+                        // Build Mobile Card (adjusted layout to fit the new "0" placeholder)
+                        const card = document.createElement('div');
+                        card.className = 'ingredient-card';
+                        card.innerHTML = `
+                            <div class="ingredient-card-header">${item.name}</div>
+                            <div class="ingredient-card-grid">
+                                <div class="card-cell">
+                                    <div class="cell-label">Brand:</div>
+                                    <div class="cell-value">${item.brand}</div>
+                                </div>
+                                <div class="card-cell">
+                                    <div class="cell-label">0:</div>
+                                    <div class="cell-value">0</div>
+                                </div>
+                                <div class="card-cell">
+                                    <div class="cell-label">Amount:</div>
+                                    <div class="cell-value">${item.qty} ${item.unit !== "0" && item.unit !== "&nbsp;" ? item.unit : ""}</div>
+                                </div>
+                                <div class="card-cell">
+                                    <div class="cell-label">Allergens:</div>
+                                    <div class="cell-value">${item.allergen}</div>
+                                </div>
+                                <div class="card-cell full-width">
+                                    <div class="cell-label">PAL Statement:</div>
+                                    <div class="cell-value">${item.pal}</div>
+                                </div>
+                            </div>
+                        `;
+                        mobileCardsContainer.appendChild(card);
+                    });
+
+                    // 4. Update Procedure and Serving
+                    procedureText.innerHTML = dataToRender.procedure;
+                    servingYield.textContent = dataToRender.serving.yield;
+                    servingPortion.textContent = dataToRender.serving.portionSize;
+                    servingServes.textContent = dataToRender.serving.serves;
+
+                    // Fade back in
+                    recipeContent.style.opacity = '1';
+                }, 200); 
+            }
+
+            // --- 4. Attach Tab Event Listeners ---
+            const tabButtons = document.querySelectorAll('[data-type]');
+            const mobileWeekToggle = document.getElementById('mobileWeekToggle');
+            const sidebarNavMenu = document.getElementById('sidebarNavMenu');
+
+            // Handle Mobile Week Dropdown toggle
+            if(mobileWeekToggle && sidebarNavMenu) {
+                mobileWeekToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    sidebarNavMenu.classList.toggle('dropdown-active');
+                });
+                document.addEventListener('click', () => {
+                    sidebarNavMenu.classList.remove('dropdown-active');
+                });
+            }
+
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    
+                    const type = btn.getAttribute('data-type');
+                    const val = btn.getAttribute('data-val');
+
+                    // Remove 'active' class from all siblings of this type
+                    document.querySelectorAll(`[data-type="${type}"]`).forEach(t => t.classList.remove('active'));
+                    // Add 'active' class to clicked button
+                    btn.classList.add('active');
+
+                    // Update State based on what type of tab was clicked
+                    if (type === 'week') {
+                        currentState.week = val;
+                        if(mobileWeekToggle) {
+                            mobileWeekToggle.textContent = val;
+                            sidebarNavMenu.classList.remove('dropdown-active');
+                        }
+                    } else if (type === 'day') {
+                        currentState.day = val;
+                    } else if (type === 'meal') {
+                        currentState.meal = val;
+                    }
+
+                    // Trigger the UI rebuild
+                    renderRecipe();
+                });
+            });
+
+            // Initial Render on page load
+            renderRecipe();
+        });
+    </script>
+</body>
+</html>
